@@ -16,7 +16,7 @@
     "illuminate/support": ">=5.1.0",
     "sebastian-berc/repositories": "^1.0",
     "nesbot/carbon": "^2.22",
-    "pusher/pusher-php-server": "^3.0",
+    "pusher/pusher-php-server": "^4.1",
     "predis/predis": "~1.1.1",
     "mpratt/embera": "^1.9"
   },
