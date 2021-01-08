@@ -189,7 +189,7 @@ class ConversationRepository extends Repository
                                 ->where('deleted_from_sender', 0);
                         }
                     )
-                        ->orWhere(
+                        ->where(
                             function ($q) use ($userId) {
                                 $q
                                     // ->where('user_id', '!=', $userId)
