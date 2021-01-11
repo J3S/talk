@@ -284,6 +284,25 @@ class Talk
     }
 
     /**
+     * fetch all threads for user.
+     *
+     * @param int $offset
+     * @param int $take
+     *
+     * @return array
+     */
+    public function getInboxBetweenUserId($userId, $order = 'desc', $offset = 0, $take = 20)
+    {
+        return $this->conversation->threadsBetweenUsers(
+            $this->authUserId,
+            $userId,
+            $order,
+            $offset,
+            $take
+        );
+    }
+
+    /**
      * fetch all inbox with soft deleted message for currently loggedin user with pagination.
      *
      * @param int $offset

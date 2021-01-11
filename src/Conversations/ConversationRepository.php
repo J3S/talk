@@ -138,6 +138,54 @@ class ConversationRepository extends Repository
     }
 
     /*
+     * retrieve all message thread between 2 users without soft deleted message
+     * with latest one message and sender and receiver user model
+     *
+     * @param   int $user
+     * @param   int $offset
+     * @param   int $take
+     * @return  collection
+     * */
+    public function threadsBetweenUsers($user1, $user2, $order, $offset, $take)
+    {
+        $msgThread = Conversation::with(
+            [
+                'messages' => function ($q) {
+                    return $q->where('deleted_from_sender', 0)
+                        ->where('deleted_from_receiver', 0)
+                        ->latest();
+                }, 'messages.sender', 'userone', 'usertwo'
+            ]
+        )
+            ->where(
+                function ($q) use ($user1, $user2) {
+                    $q->where('user_one', $user1)->where('user_two', $user2);
+                }
+            )
+            ->orWhere(
+                function ($q) use ($user1, $user2) {
+                    $q->where('user_one', $user2)->where('user_two', $user1);
+                }
+            )
+            ->offset($offset)
+            ->take($take)
+            ->orderBy('updated_at', $order)
+            ->get();
+
+        $threads = [];
+
+        foreach ($msgThread as $thread) {
+            $collection = (object)null;
+            $conversationWith = ($thread->userone->id == $user) ? $thread->usertwo : $thread->userone;
+            $collection->thread = $thread->messages->first();
+            $collection->withUser = $conversationWith;
+            $threads[] = $collection;
+        }
+
+        return collect($threads);
+    }
+
+    /*
      * retrieve all message thread with latest one message and sender and receiver user model
      *
      * @param   int $user
