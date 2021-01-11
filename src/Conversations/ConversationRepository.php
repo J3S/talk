@@ -176,7 +176,7 @@ class ConversationRepository extends Repository
 
         foreach ($msgThread as $thread) {
             $collection = (object)null;
-            $conversationWith = ($thread->userone->id == $user) ? $thread->usertwo : $thread->userone;
+            $conversationWith = ($thread->userone->id == $user2) ? $thread->userone : $thread->usertwo;
             $collection->thread = $thread->messages->first();
             $collection->withUser = $conversationWith;
             $threads[] = $collection;
