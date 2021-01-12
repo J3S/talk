@@ -114,7 +114,7 @@ class ConversationRepository extends Repository
                             }
                         )
                         ->latest();
-                }, 'messages.sender', 'userone', 'usertwo'
+                }, 'messages.sender', 'userone', 'usertwo', 'messages.conversation'
             ]
         )
             ->where('user_one', $user)
@@ -154,7 +154,7 @@ class ConversationRepository extends Repository
                     return $q->where('deleted_from_sender', 0)
                         ->where('deleted_from_receiver', 0)
                         ->latest();
-                }, 'messages.sender', 'userone', 'usertwo'
+                }, 'messages.sender', 'userone', 'usertwo', 'messages.conversation'
             ]
         )
             ->where(
