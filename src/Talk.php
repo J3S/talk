@@ -101,7 +101,12 @@ class Talk
             'is_seen' => 0,
         ]);
 
-        $message->conversation->touch();
+        if ($message->conversation->user_one == $this->authUserId) {
+            $message->conversation->pending_user_two = $message->conversation->pending_user_two++;
+        } else {
+            $message->conversation->pending_user_one = $message->conversation->pending_user_one++;
+        }
+        $message->conversation->save();
 
         $this->broadcast->transmission($message);
 

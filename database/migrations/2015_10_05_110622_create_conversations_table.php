@@ -18,6 +18,8 @@ class CreateConversationsTable extends Migration
             $table->integer('user_one');
             $table->integer('user_two');
             $table->boolean('status');
+            $table->integer('pending_user_one')->default(0);
+            $table->integer('pending_user_two')->default(0);
             $table->timestamps();
         });
     }
