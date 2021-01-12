@@ -16,6 +16,8 @@ use Nahid\Talk\Conversations\ConversationRepository;
 use Nahid\Talk\Messages\MessageRepository;
 use Nahid\Talk\Live\Broadcast;
 
+use Nahid\Talk\Conversations\Conversation;
+
 class Talk
 {
     /**
@@ -101,12 +103,13 @@ class Talk
             'is_seen' => 0,
         ]);
 
-        if ($message->conversation->user_one == $this->authUserId) {
-            $message->conversation->pending_user_two = $message->conversation->pending_user_two++;
+        $conversation = Conversation::find($conversationId);
+        if ($conversation->user_one == $this->authUserId) {
+            $conversation->pending_user_two = $conversation->pending_user_two++;
         } else {
-            $message->conversation->pending_user_one = $message->conversation->pending_user_one++;
+            $conversation->pending_user_one = $conversation->pending_user_one++;
         }
-        $message->conversation->save();
+        $conversation->save();
 
         $this->broadcast->transmission($message);
 
